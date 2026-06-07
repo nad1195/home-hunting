@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>하나은행 대출 상담 가이드</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  background: #0d1117;
+  color: #e6edf3;
+  min-height: 100vh;
+  padding: 24px 16px 60px;
+}
+.back { display:inline-flex;align-items:center;gap:6px;font-size:12px;color:#6e7681;text-decoration:none;margin-bottom:20px; }
+.back:hover { color:#58a6ff; }
+
+.header { text-align:center; margin-bottom:24px; }
+.badge {
+  display:inline-block;
+  background:rgba(88,166,255,0.12);
+  border:1px solid rgba(88,166,255,0.3);
+  color:#58a6ff;
+  font-size:10px;font-weight:700;letter-spacing:1px;
+  padding:3px 12px;border-radius:20px;text-transform:uppercase;margin-bottom:10px;
+}
+h1 { font-size:22px;font-weight:900;color:#fff;line-height:1.4; }
+.sub { font-size:12px;color:#6e7681;margin-top:6px; }
+
+.priority-card {
+  background:linear-gradient(135deg,#1a1f2e,#161b22);
+  border:1px solid rgba(248,81,73,0.35);
+  border-radius:18px;padding:18px;margin-bottom:14px;
+}
+.priority-card .pt { font-size:10px;font-weight:700;color:#f85149;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px; }
+
+.q-item {
+  background:#0d1117;
+  border:1px solid #21262d;
+  border-radius:12px;
+  padding:14px;
+  margin-bottom:10px;
+}
+.q-num {
+  display:inline-block;
+  background:rgba(88,166,255,0.15);
+  border:1px solid rgba(88,166,255,0.3);
+  color:#58a6ff;
+  font-size:10px;font-weight:700;
+  padding:1px 7px;border-radius:10px;margin-bottom:6px;
+}
+.q-num.red { background:rgba(248,81,73,0.12);border-color:rgba(248,81,73,0.3);color:#f85149; }
+.q-num.yellow { background:rgba(210,153,34,0.12);border-color:rgba(210,153,34,0.3);color:#d29922; }
+
+.q-title { font-size:14px;font-weight:700;color:#fff;margin-bottom:4px; }
+.q-desc { font-size:11px;color:#8b949e;line-height:1.6; }
+.q-why { font-size:10px;color:#3fb950;margin-top:6px;font-weight:600; }
+
+.section { background:#161b22;border:1px solid #21262d;border-radius:18px;padding:18px;margin-bottom:14px; }
+.sec-title { font-size:11px;font-weight:700;color:#8b949e;letter-spacing:1px;text-transform:uppercase;margin-bottom:14px; }
+
+.info-row {
+  display:flex;justify-content:space-between;align-items:center;
+  padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.05);font-size:12px;
+}
+.info-row:last-child { border-bottom:none; }
+.info-label { color:#8b949e; }
+.info-val { font-weight:700;color:#e6edf3; }
+.info-val.blue { color:#58a6ff; }
+.info-val.green { color:#3fb950; }
+.info-val.yellow { color:#d29922; }
+.info-val.red { color:#f85149; }
+
+.tip {
+  background:rgba(63,185,80,0.06);
+  border:1px solid rgba(63,185,80,0.2);
+  border-radius:12px;padding:12px 14px;margin-top:10px;
+  font-size:11px;color:#8b949e;line-height:1.6;
+}
+.tip strong { color:#3fb950; }
+
+.back-btn {
+  display:block;text-align:center;margin-top:20px;
+  color:#6e7681;font-size:12px;text-decoration:none;
+}
+</style>
+</head>
+<body>
+
+<a class="back" href="index.html">← 홈으로</a>
+
+<div class="header">
+  <div class="badge">2026년 6월 상담 기준</div>
+  <h1>🏦 하나은행 대출 상담<br>질문 가이드</h1>
+  <p class="sub">상담 전 꼭 확인할 것들</p>
+</div>
+
+<!-- 우리 정보 요약 -->
+<div class="section">
+  <div class="sec-title">📋 우리 기본 정보</div>
+  <div class="info-row"><span class="info-label">나디아 비자</span><span class="info-val yellow">F-2 (결혼이민)</span></div>
+  <div class="info-row"><span class="info-label">진혁 국적</span><span class="info-val">한국인 / 경찰 3.5년차</span></div>
+  <div class="info-row"><span class="info-label">진혁 하나은행 거래 여부</span><span class="info-val red">계좌 없음 (비고객)</span></div>
+  <div class="info-row"><span class="info-label">목표 매물가</span><span class="info-val">8억~9억 미만</span></div>
+  <div class="info-row"><span class="info-label">자기자본</span><span class="info-val green">약 3억 3,600만원</span></div>
+  <div class="info-row"><span class="info-label">필요 은행 대출 (8.5억 기준)</span><span class="info-val blue">약 5억 1,400만원</span></div>
+  <div class="info-row"><span class="info-label">기존 대출 (하나은행)</span><span class="info-val red">8,000만 · 만기 2027.2.17</span></div>
+  <div class="info-row"><span class="info-label">현 반전세 만기</span><span class="info-val">2027년 3월 20일</span></div>
+  <div class="info-row"><span class="info-label">입주 데드라인</span><span class="info-val red">2027년 2월 17일</span></div>
+</div>
+
+<!-- 최우선 질문 -->
+<div class="priority-card">
+  <div class="pt">🔴 최우선 확인 사항</div>
+
+  <div class="q-item">
+    <div class="q-num red">1순위</div>
+    <div class="q-title">F-2 비자로 공동명의 주담대 가능한가요?</div>
+    <div class="q-desc">나디아가 F-2 비자 외국인입니다. 진혁(한국인)과 공동명의로 주택담보대출 신청 시 나디아 소득·자산도 합산되나요?</div>
+    <div class="q-why">→ 불가 시 진혁 단독명의 검토 필요</div>
+  </div>
+
+  <div class="q-item">
+    <div class="q-num red">2순위</div>
+    <div class="q-title">F-5 영주권 신청 시점이 대출 조건에 영향을 주나요?</div>
+    <div class="q-desc">나디아가 2026년 6월 15일 F-5(영주권) 신청 예정입니다. 심사 기간 중 또는 취득 후 대출 조건(한도·금리)이 달라지나요?</div>
+    <div class="q-why">→ F-5 취득 타이밍에 따라 대출 전략이 달라짐</div>
+  </div>
+</div>
+
+<!-- 추가 질문들 -->
+<div class="section">
+  <div class="sec-title">추가 확인 질문</div>
+
+  <div class="q-item">
+    <div class="q-num yellow">3</div>
+    <div class="q-title">9억 미만 vs 이상 대출 한도 차이</div>
+    <div class="q-desc">9억 미만이면 LTV·DSR 조건이 어떻게 다른지, 저희 상황에서 최대 얼마까지 가능한지 알고 싶습니다.</div>
+  </div>
+
+  <div class="q-item">
+    <div class="q-num yellow">4</div>
+    <div class="q-title">토지거래허가구역 단지 대출 가능한가요?</div>
+    <div class="q-desc">검토 중인 일부 단지(북한산현대힐스테이트3차, 백련산힐스테이트1차 등)가 토지거래허가구역입니다. 대출 가능 여부 및 추가 서류가 있나요?</div>
+  </div>
+
+  <div class="q-item">
+    <div class="q-num">5</div>
+    <div class="q-title">회사 사내 대출이 DSR에 포함되나요?</div>
+    <div class="q-desc">나디아가 회사에서 7,000만원 (금리 1%) 대출을 받을 예정입니다. 이게 은행 DSR 산정에 포함되나요?</div>
+  </div>
+
+  <div class="q-item">
+    <div class="q-num">6</div>
+    <div class="q-title">기존 하나은행 대출 8,000만원 처리</div>
+    <div class="q-desc">현재 반전세 보증금에서 8,000만 대출이 있고 만기가 2027.2.17입니다. 매매 시 이 대출을 새 주담대로 통합하거나 연장할 수 있나요?</div>
+  </div>
+</div>
+
+<!-- 진혁 동반 질문 -->
+<div class="section">
+  <div class="sec-title">👫 진혁이랑 같이 가서 추가로 물어볼 것</div>
+
+  <div class="q-item">
+    <div class="q-num yellow">7</div>
+    <div class="q-title">결혼 전인데 부부 합산 소득으로 대출 신청 가능한가요?</div>
+    <div class="q-desc">2027년 1월 인도네시아 결혼식 예정이고 한국 혼인신고 시점은 그 전후입니다. 혼인신고 전 상태에서 둘이 함께 대출 신청 시 소득 합산이 되는지, 아니면 혼인신고 후에 신청해야 하는지 알고 싶습니다.</div>
+    <div class="q-why">→ 혼인신고 타이밍이 대출 신청 시점에 영향을 줄 수 있음</div>
+  </div>
+
+  <div class="q-item">
+    <div class="q-num yellow">8</div>
+    <div class="q-title">공동명의 vs 진혁 단독명의 — 어느 쪽이 대출 한도·금리에 유리한가요?</div>
+    <div class="q-desc">나디아가 F-2 외국인인 점을 감안했을 때, 공동명의와 진혁 단독명의 중 대출 가능 한도와 금리 면에서 어느 쪽이 더 유리한지 비교해 주세요.</div>
+    <div class="q-why">→ 명의 결정이 대출 구조 전체를 좌우함</div>
+  </div>
+
+  <div class="q-item">
+    <div class="q-num yellow">9</div>
+    <div class="q-title">경찰 공무원 대상 우대 대출 상품이 있나요?</div>
+    <div class="q-desc">진혁이 경찰(공무원) 3.5년차입니다. 공무원 대상 금리 우대나 전용 주담대 상품이 있는지, 있다면 일반 상품과 조건 차이가 얼마나 되는지 알고 싶습니다.</div>
+    <div class="q-why">→ 공무원 우대 상품이 있으면 금리 절감 가능</div>
+  </div>
+
+  <div class="q-item">
+    <div class="q-num">10</div>
+    <div class="q-title">진혁이 하나은행 비고객인데, 주거래 실적 없이도 우대 금리 받을 수 있나요?</div>
+    <div class="q-desc">진혁이 주거래 은행을 바꾸기 어려운 상황입니다. 급여이체 없이도 받을 수 있는 우대 조건(카드 실적, 적금 가입 등)이 있는지, 나디아의 하나은행 주거래 실적으로 대신 인정되는지 알고 싶습니다.</div>
+    <div class="q-why">→ 나디아가 기존 하나은행 고객이므로 나디아 실적으로 커버 가능한지 확인</div>
+  </div>
+
+  <div class="q-item">
+    <div class="q-num">11</div>
+    <div class="q-title">나중에 단독명의 → 공동명의로 변경 시 비용과 절차는?</div>
+    <div class="q-desc">일단 진혁 단독명의로 시작하고, F-5 취득 후 나디아를 공동명의로 추가할 경우 취득세·등록세 등 추가 비용이 어떻게 되는지 알고 싶습니다.</div>
+  </div>
+</div>
+
+<div class="tip">
+  <strong>💡 Tip.</strong> 상담 시 나디아 외국인등록증, 재직증명서(SKT), 진혁 재직증명서·소득 서류 지참하면 더 정확한 한도 계산이 가능합니다.
+</div>
+
+<a class="back-btn" href="index.html">← 홈으로 돌아가기</a>
+
+</body>
+</html>

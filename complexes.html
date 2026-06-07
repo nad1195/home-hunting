@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>검토 단지 리스트</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  background: #0d1117;
+  color: #e6edf3;
+  min-height: 100vh;
+  padding: 24px 16px 60px;
+}
+.back { display:inline-flex;align-items:center;gap:6px;font-size:12px;color:#6e7681;text-decoration:none;margin-bottom:20px; }
+.back:hover { color:#d29922; }
+
+.header { text-align:center; margin-bottom:24px; }
+.badge {
+  display:inline-block;
+  background:rgba(210,153,34,0.12);
+  border:1px solid rgba(210,153,34,0.3);
+  color:#d29922;
+  font-size:10px;font-weight:700;letter-spacing:1px;
+  padding:3px 12px;border-radius:20px;text-transform:uppercase;margin-bottom:10px;
+}
+h1 { font-size:22px;font-weight:900;color:#fff;line-height:1.4; }
+.sub { font-size:12px;color:#6e7681;margin-top:6px; }
+
+/* 필터 탭 */
+.tabs {
+  display:flex;gap:8px;margin-bottom:18px;overflow-x:auto;padding-bottom:4px;
+}
+.tab {
+  flex-shrink:0;
+  padding:6px 14px;
+  border-radius:20px;
+  border:1px solid #21262d;
+  font-size:11px;font-weight:700;
+  cursor:pointer;
+  color:#6e7681;
+  background:#161b22;
+  transition:all 0.15s;
+}
+.tab.active { color:#fff; }
+.tab.all.active { background:rgba(230,237,243,0.1);border-color:#6e7681; }
+.tab.A.active { background:rgba(63,185,80,0.12);border-color:rgba(63,185,80,0.4);color:#3fb950; }
+.tab.Am.active { background:rgba(88,166,255,0.12);border-color:rgba(88,166,255,0.4);color:#58a6ff; }
+.tab.hold.active { background:rgba(210,153,34,0.12);border-color:rgba(210,153,34,0.4);color:#d29922; }
+
+/* 카드 */
+.complex-card {
+  background:#161b22;
+  border:1px solid #21262d;
+  border-radius:16px;
+  padding:16px;
+  margin-bottom:10px;
+  position:relative;
+}
+.complex-card.grade-A { border-left:3px solid #3fb950; }
+.complex-card.grade-Am { border-left:3px solid #58a6ff; }
+.complex-card.grade-hold { border-left:3px solid #d29922; }
+
+.card-top { display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px; }
+
+.grade-badge {
+  font-size:9px;font-weight:700;letter-spacing:0.5px;
+  padding:2px 8px;border-radius:8px;flex-shrink:0;margin-left:8px;
+}
+.grade-badge.A { background:rgba(63,185,80,0.15);color:#3fb950; }
+.grade-badge.Am { background:rgba(88,166,255,0.15);color:#58a6ff; }
+.grade-badge.hold { background:rgba(210,153,34,0.15);color:#d29922; }
+
+.complex-name { font-size:15px;font-weight:700;color:#fff;flex:1; }
+.complex-dong { font-size:11px;color:#6e7681;margin-top:2px; }
+
+.meta-row {
+  display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;
+}
+.meta-chip {
+  font-size:10px;font-weight:600;
+  padding:2px 8px;border-radius:8px;
+  background:#0d1117;border:1px solid #21262d;color:#8b949e;
+}
+.meta-chip.price { color:#e6edf3;border-color:#3d444d; }
+.meta-chip.jeonse { color:#58a6ff;border-color:rgba(88,166,255,0.2); }
+.meta-chip.year { color:#8b949e; }
+.meta-chip.units { color:#8b949e; }
+.meta-chip.warn { color:#f85149;border-color:rgba(248,81,73,0.2); }
+.meta-chip.good { color:#3fb950;border-color:rgba(63,185,80,0.2); }
+
+.complex-note {
+  font-size:11px;color:#6e7681;margin-top:8px;line-height:1.5;
+}
+
+.section-title {
+  font-size:10px;font-weight:700;color:#6e7681;
+  letter-spacing:1.2px;text-transform:uppercase;
+  margin:20px 0 10px;
+  padding-left:2px;
+}
+
+.back-btn { display:block;text-align:center;margin-top:20px;color:#6e7681;font-size:12px;text-decoration:none; }
+</style>
+</head>
+<body>
+
+<a class="back" href="index.html">← 홈으로</a>
+
+<div class="header">
+  <div class="badge">2026년 6월 기준</div>
+  <h1>🏢 검토 단지 현황</h1>
+  <p class="sub">예산 800~900만 · 59㎡+ · 2000년 이후 · 우상향 필수</p>
+</div>
+
+<div class="tabs">
+  <div class="tab all active" onclick="filter('all', this)">전체</div>
+  <div class="tab A" onclick="filter('A', this)">⭐ A등급</div>
+  <div class="tab Am" onclick="filter('Am', this)">A-등급</div>
+  <div class="tab hold" onclick="filter('hold', this)">보류</div>
+</div>
+
+<!-- A등급 -->
+<div class="section-title" id="sec-A">⭐ A등급 — 최우선 검토</div>
+
+<div class="complex-card grade-A" data-grade="A">
+  <div class="card-top">
+    <div>
+      <div class="complex-name">북한산힐스테이트1차</div>
+      <div class="complex-dong">은평구 불광동</div>
+    </div>
+    <div class="grade-badge A">A</div>
+  </div>
+  <div class="meta-row">
+    <span class="meta-chip price">약 8.59억</span>
+    <span class="meta-chip jeonse">전세율 65.1%</span>
+    <span class="meta-chip year">2009년</span>
+    <span class="meta-chip units">603세대</span>
+    <span class="meta-chip good">실거래 296건</span>
+    <span class="meta-chip good">우상향</span>
+  </div>
+  <div class="complex-note">을지로까지 약 40분 · 거래량 탄탄</div>
+</div>
+
+<div class="complex-card grade-A" data-grade="A">
+  <div class="card-top">
+    <div>
+      <div class="complex-name">북한산현대힐스테이트3차</div>
+      <div class="complex-dong">은평구 불광동</div>
+    </div>
+    <div class="grade-badge A">A</div>
+  </div>
+  <div class="meta-row">
+    <span class="meta-chip price">약 8.70억</span>
+    <span class="meta-chip jeonse">전세율 63.3%</span>
+    <span class="meta-chip year">2010년</span>
+    <span class="meta-chip units">1,185세대</span>
+    <span class="meta-chip good">실거래 584건 (최다)</span>
+    <span class="meta-chip good">우상향</span>
+    <span class="meta-chip warn">토지거래허가</span>
+  </div>
+  <div class="complex-note">5월 거래량 4위 · 토지거래허가 은행 확인 필요</div>
+</div>
+
+<div class="complex-card grade-A" data-grade="A">
+  <div class="card-top">
+    <div>
+      <div class="complex-name">백련산힐스테이트1차</div>
+      <div class="complex-dong">은평구 응암동</div>
+    </div>
+    <div class="grade-badge A">A</div>
+  </div>
+  <div class="meta-row">
+    <span class="meta-chip price">약 8.10억</span>
+    <span class="meta-chip jeonse">전세율 65.7%</span>
+    <span class="meta-chip year">2011년</span>
+    <span class="meta-chip units">1,106세대</span>
+    <span class="meta-chip good">실거래 415건</span>
+    <span class="meta-chip good">우상향</span>
+    <span class="meta-chip warn">토지거래허가</span>
+  </div>
+  <div class="complex-note">5월 거래량 8위 · 대단지 안정성 우수</div>
+</div>
+
+<div class="complex-card grade-A" data-grade="A">
+  <div class="card-top">
+    <div>
+      <div class="complex-name">문화촌현대</div>
+      <div class="complex-dong">서대문구 홍제동</div>
+    </div>
+    <div class="grade-badge A">A</div>
+  </div>
+  <div class="meta-row">
+    <span class="meta-chip price">26평 7.5억 / 33평 8.4억</span>
+    <span class="meta-chip jeonse">전세율 59.6%</span>
+    <span class="meta-chip year">2002년</span>
+    <span class="meta-chip units">768세대</span>
+    <span class="meta-chip good">우상향</span>
+    <span class="meta-chip good">서대문구 5월 거래 1위</span>
+  </div>
+  <div class="complex-note">5월 거래 12건 1위 · 서대문구 핵심 단지</div>
+</div>
+
+<!-- A-등급 -->
+<div class="section-title" id="sec-Am">A-등급 — 유효 후보</div>
+
+<div class="complex-card grade-Am" data-grade="Am">
+  <div class="card-top">
+    <div>
+      <div class="complex-name">북한산래미안</div>
+      <div class="complex-dong">은평구 불광동</div>
+    </div>
+    <div class="grade-badge Am">A-</div>
+  </div>
+  <div class="meta-row">
+    <span class="meta-chip price">약 8.99억</span>
+    <span class="meta-chip jeonse">전세율 64.2%</span>
+    <span class="meta-chip year">2010년</span>
+    <span class="meta-chip units">782세대</span>
+    <span class="meta-chip good">실거래 260건</span>
+    <span class="meta-chip good">우상향</span>
+  </div>
+  <div class="complex-note">9억 경계선 주의 · 실거래가 확인 필수</div>
+</div>
+
+<div class="complex-card grade-Am" data-grade="Am">
+  <div class="card-top">
+    <div>
+      <div class="complex-name">응암푸르지오</div>
+      <div class="complex-dong">은평구 응암동</div>
+    </div>
+    <div class="grade-badge Am">A-</div>
+  </div>
+  <div class="meta-row">
+    <span class="meta-chip price">약 8.12억</span>
+    <span class="meta-chip jeonse">전세율 67.6%</span>
+    <span class="meta-chip year">2008년</span>
+    <span class="meta-chip units">361세대</span>
+    <span class="meta-chip good">우상향</span>
+  </div>
+  <div class="complex-note">세대수 적음 (약점) · 전세율 양호</div>
+</div>
+
+<div class="complex-card grade-Am" data-grade="Am">
+  <div class="card-top">
+    <div>
+      <div class="complex-name">개봉아이파크</div>
+      <div class="complex-dong">구로구 개봉동</div>
+    </div>
+    <div class="grade-badge Am">A-</div>
+  </div>
+  <div class="meta-row">
+    <span class="meta-chip price">약 8.80억</span>
+    <span class="meta-chip jeonse">전세율 65.2%</span>
+    <span class="meta-chip year">2006년</span>
+    <span class="meta-chip units">684세대</span>
+  </div>
+</div>
+
+<div class="complex-card grade-Am" data-grade="Am">
+  <div class="card-top">
+    <div>
+      <div class="complex-name">개봉한진타운</div>
+      <div class="complex-dong">구로구 개봉동</div>
+    </div>
+    <div class="grade-badge Am">A-</div>
+  </div>
+  <div class="meta-row">
+    <span class="meta-chip price">약 6.13억</span>
+    <span class="meta-chip jeonse">전세율 65.5%</span>
+    <span class="meta-chip year">2000년</span>
+    <span class="meta-chip units">1,371세대</span>
+    <span class="meta-chip good">실거래 853건</span>
+    <span class="meta-chip good">우상향</span>
+  </div>
+  <div class="complex-note">준공연도 경계선 (2000년) · 가격 매력적</div>
+</div>
+
+<div class="complex-card grade-Am" data-grade="Am">
+  <div class="card-top">
+    <div>
+      <div class="complex-name">한일유앤아이</div>
+      <div class="complex-dong">구로구 구로동</div>
+    </div>
+    <div class="grade-badge Am">A-</div>
+  </div>
+  <div class="meta-row">
+    <span class="meta-chip price">약 6.88억</span>
+    <span class="meta-chip jeonse">전세율 66.9%</span>
+    <span class="meta-chip year">2006년</span>
+    <span class="meta-chip units">454세대</span>
+  </div>
+</div>
+
+<div class="complex-card grade-Am" data-grade="Am">
+  <div class="card-top">
+    <div>
+      <div class="complex-name">영풍마드레빌</div>
+      <div class="complex-dong">구로구 오류동</div>
+    </div>
+    <div class="grade-badge Am">A-</div>
+  </div>
+  <div class="meta-row">
+    <span class="meta-chip price">약 6.40억</span>
+    <span class="meta-chip jeonse">전세율 68.5%</span>
+    <span class="meta-chip year">2002년</span>
+    <span class="meta-chip units">627세대</span>
+  </div>
+</div>
+
+<!-- 보류 -->
+<div class="section-title" id="sec-hold">보류 — 조건부 검토</div>
+
+<div class="complex-card grade-hold" data-grade="hold">
+  <div class="card-top">
+    <div><div class="complex-name">힐스테이트녹번 20평</div><div class="complex-dong">은평구 녹번동</div></div>
+    <div class="grade-badge hold">보류</div>
+  </div>
+  <div class="meta-row"><span class="meta-chip price">8.90억</span><span class="meta-chip warn">59㎡ 미만</span></div>
+</div>
+
+<div class="complex-card grade-hold" data-grade="hold">
+  <div class="card-top">
+    <div><div class="complex-name">북한산현대홈타운</div><div class="complex-dong">은평구 불광동</div></div>
+    <div class="grade-badge hold">보류</div>
+  </div>
+  <div class="meta-row"><span class="meta-chip price">8.40억</span><span class="meta-chip year">2004년</span><span class="meta-chip units">662세대</span><span class="meta-chip warn">거래량 적음</span></div>
+</div>
+
+<div class="complex-card grade-hold" data-grade="hold">
+  <div class="card-top">
+    <div><div class="complex-name">e편한세상백련산</div><div class="complex-dong">은평구 응암동</div></div>
+    <div class="grade-badge hold">보류</div>
+  </div>
+  <div class="meta-row"><span class="meta-chip price">8.80억</span><span class="meta-chip year">2022년</span><span class="meta-chip units">358세대</span><span class="meta-chip warn">세대수 적음</span></div>
+</div>
+
+<div class="complex-card grade-hold" data-grade="hold">
+  <div class="card-top">
+    <div><div class="complex-name">백련산해모로</div><div class="complex-dong">은평구 응암동</div></div>
+    <div class="grade-badge hold">보류</div>
+  </div>
+  <div class="meta-row"><span class="meta-chip warn">전세율 54.5%</span><span class="meta-chip warn">2022년 급락 이력</span></div>
+</div>
+
+<div class="complex-card grade-hold" data-grade="hold">
+  <div class="card-top">
+    <div><div class="complex-name">연희동성원</div><div class="complex-dong">서대문구 연희동</div></div>
+    <div class="grade-badge hold">보류</div>
+  </div>
+  <div class="meta-row"><span class="meta-chip price">7.30억</span><span class="meta-chip year">2001년</span><span class="meta-chip units">581세대</span><span class="meta-chip jeonse">전세율 64.7%</span><span class="meta-chip warn">토지거래허가</span></div>
+</div>
+
+<div class="complex-card grade-hold" data-grade="hold">
+  <div class="card-top">
+    <div><div class="complex-name">증산동DMC우방</div><div class="complex-dong">은평구 증산동</div></div>
+    <div class="grade-badge hold">보류</div>
+  </div>
+  <div class="meta-row"><span class="meta-chip price">8.97억</span><span class="meta-chip year">2000년</span><span class="meta-chip units">429세대</span><span class="meta-chip good">우상향</span><span class="meta-chip good">실거래 308건</span></div>
+  <div class="complex-note">우상향이지만 준공연도 경계선 + 세대수 아쉬움</div>
+</div>
+
+<a class="back-btn" href="index.html">← 홈으로 돌아가기</a>
+
+<script>
+function filter(grade, el) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  document.querySelectorAll('.complex-card').forEach(card => {
+    if (grade === 'all') { card.style.display = ''; return; }
+    card.style.display = card.dataset.grade === grade ? '' : 'none';
+  });
+  document.querySelectorAll('.section-title').forEach(s => {
+    if (grade === 'all') { s.style.display = ''; return; }
+    const map = {A:'sec-A', Am:'sec-Am', hold:'sec-hold'};
+    s.style.display = s.id === map[grade] ? '' : 'none';
+  });
+}
+</script>
+</body>
+</html>
