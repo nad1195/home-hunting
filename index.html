@@ -7,223 +7,76 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 <style>
 * { margin:0; padding:0; box-sizing:border-box; }
-body {
-  font-family: 'Noto Sans KR', sans-serif;
-  background: #0d1117;
-  color: #e6edf3;
-  min-height: 100vh;
-  padding: 32px 16px 60px;
-}
+body { font-family:'Noto Sans KR',sans-serif; background:#0d1117; color:#e6edf3; min-height:100vh; padding:32px 16px 60px; }
 
-.header {
-  text-align: center;
-  margin-bottom: 36px;
-  animation: fadeDown 0.6s ease both;
-}
-
-.emoji-title { font-size: 40px; margin-bottom: 12px; }
-
-h1 {
-  font-size: 26px;
-  font-weight: 900;
-  color: #fff;
-  line-height: 1.4;
-  margin-bottom: 6px;
-}
-
-.subtitle {
-  font-size: 13px;
-  color: #6e7681;
-}
+.header { text-align:center; margin-bottom:32px; animation:fadeDown 0.6s ease both; }
+.emoji-title { font-size:40px; margin-bottom:12px; }
+h1 { font-size:26px; font-weight:900; color:#fff; line-height:1.4; margin-bottom:6px; }
+.subtitle { font-size:13px; color:#6e7681; }
 
 .deadline-box {
-  background: linear-gradient(135deg, #1a1f2e, #161b22);
-  border: 1px solid rgba(248,81,73,0.3);
-  border-radius: 16px;
-  padding: 16px 20px;
-  margin-bottom: 28px;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  animation: fadeUp 0.5s ease 0.1s both;
+  background:linear-gradient(135deg,#1a1f2e,#161b22);
+  border:1px solid rgba(248,81,73,0.3);
+  border-radius:16px; padding:16px 20px; margin-bottom:28px;
+  display:flex; align-items:center; gap:14px;
+  animation:fadeUp 0.5s ease 0.1s both;
 }
+.deadline-box .icon { font-size:24px; flex-shrink:0; }
+.deadline-box .d-label { font-size:10px; font-weight:700; color:#f85149; letter-spacing:1px; text-transform:uppercase; margin-bottom:3px; }
+.deadline-box .d-text { font-size:14px; font-weight:700; color:#fff; }
+.deadline-box .d-sub { font-size:11px; color:#6e7681; margin-top:2px; }
 
-.deadline-box .icon { font-size: 24px; flex-shrink: 0; }
+.section-label { font-size:10px; font-weight:700; color:#6e7681; letter-spacing:1.2px; text-transform:uppercase; margin-bottom:14px; padding-left:2px; }
 
-.deadline-box .d-label {
-  font-size: 10px;
-  font-weight: 700;
-  color: #f85149;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  margin-bottom: 3px;
-}
-
-.deadline-box .d-text {
-  font-size: 14px;
-  font-weight: 700;
-  color: #fff;
-}
-
-.deadline-box .d-sub {
-  font-size: 11px;
-  color: #6e7681;
-  margin-top: 2px;
-}
-
-.section-label {
-  font-size: 10px;
-  font-weight: 700;
-  color: #6e7681;
-  letter-spacing: 1.2px;
-  text-transform: uppercase;
-  margin-bottom: 14px;
-  padding-left: 2px;
-}
-
-.cards { display: flex; flex-direction: column; gap: 12px; margin-bottom: 28px; }
+.cards { display:flex; flex-direction:column; gap:12px; margin-bottom:28px; }
 
 .card {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  background: #161b22;
-  border: 1px solid #21262d;
-  border-radius: 18px;
-  padding: 20px;
-  text-decoration: none;
-  color: inherit;
-  transition: all 0.2s ease;
-  animation: fadeUp 0.5s ease both;
-  position: relative;
-  overflow: hidden;
+  display:flex; align-items:center; gap:16px;
+  background:#161b22; border:1px solid #21262d; border-radius:18px; padding:20px;
+  text-decoration:none; color:inherit; transition:all 0.2s ease;
+  animation:fadeUp 0.5s ease both; position:relative; overflow:hidden;
 }
+.card::after { content:'→'; position:absolute; right:20px; font-size:18px; color:#3d444d; transition:all 0.2s ease; }
+.card:hover { border-color:var(--accent); transform:translateY(-2px); box-shadow:0 8px 24px rgba(0,0,0,0.3); }
+.card:hover::after { right:14px; color:var(--accent); }
+.card.archived { opacity:0.45; }
+.card.archived:hover { opacity:0.65; }
 
-.card::after {
-  content: '→';
-  position: absolute;
-  right: 20px;
-  font-size: 18px;
-  color: #3d444d;
-  transition: all 0.2s ease;
+.card-icon { width:52px; height:52px; border-radius:14px; display:flex; align-items:center; justify-content:center; font-size:24px; flex-shrink:0; background:var(--icon-bg); }
+.card-body { flex:1; }
+.card-tag { font-size:9px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--accent); margin-bottom:4px; }
+.card-title { font-size:16px; font-weight:700; color:#fff; margin-bottom:4px; }
+.card-desc { font-size:12px; color:#6e7681; line-height:1.5; }
+
+.card.asset    { --accent:#3fb950; --icon-bg:rgba(63,185,80,0.12);   animation-delay:0.15s; }
+.card.result   { --accent:#e879f9; --icon-bg:rgba(232,121,249,0.12); animation-delay:0.2s; }
+.card.complex  { --accent:#d29922; --icon-bg:rgba(210,153,34,0.12);  animation-delay:0.25s; }
+.card.loan     { --accent:#3d444d; --icon-bg:rgba(61,68,77,0.3);     animation-delay:0.3s; }
+
+/* 개념 섹션 */
+.concepts { margin-bottom:28px; animation:fadeUp 0.5s ease 0.35s both; }
+.concept-grid { display:flex; flex-direction:column; gap:10px; }
+
+.concept-card {
+  background:#161b22; border:1px solid #21262d; border-radius:14px; padding:16px;
+  cursor:pointer; transition:border-color 0.2s;
 }
+.concept-card:hover { border-color:#3d444d; }
+.concept-header { display:flex; justify-content:space-between; align-items:center; }
+.concept-title { font-size:14px; font-weight:700; color:#fff; display:flex; align-items:center; gap:8px; }
+.concept-badge { font-size:9px; font-weight:700; padding:2px 8px; border-radius:8px; }
+.concept-arrow { font-size:12px; color:#6e7681; transition:transform 0.2s; }
+.concept-card.open .concept-arrow { transform:rotate(90deg); }
+.concept-body { display:none; margin-top:12px; font-size:12px; color:#8b949e; line-height:1.8; border-top:1px solid #21262d; padding-top:12px; }
+.concept-card.open .concept-body { display:block; }
+.concept-body strong { color:#e6edf3; }
+.concept-body .example { background:#0d1117; border-radius:8px; padding:10px 12px; margin-top:8px; font-size:11px; color:#6e7681; line-height:1.7; }
+.concept-body .example span { color:#3fb950; font-weight:700; }
 
-.card:hover {
-  border-color: var(--accent);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
-}
+.footer { text-align:center; font-size:10px; color:#3d444d; margin-top:28px; line-height:1.8; animation:fadeUp 0.5s ease 0.5s both; }
 
-.card:hover::after {
-  right: 14px;
-  color: var(--accent);
-}
-
-.card-icon {
-  width: 52px;
-  height: 52px;
-  border-radius: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 24px;
-  flex-shrink: 0;
-  background: var(--icon-bg);
-}
-
-.card-body { flex: 1; }
-
-.card-tag {
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin-bottom: 4px;
-}
-
-.card-title {
-  font-size: 16px;
-  font-weight: 700;
-  color: #fff;
-  margin-bottom: 4px;
-}
-
-.card-desc {
-  font-size: 12px;
-  color: #6e7681;
-  line-height: 1.5;
-}
-
-/* 카드별 색상 */
-.card.asset { --accent: #3fb950; --icon-bg: rgba(63,185,80,0.12); animation-delay: 0.2s; }
-.card.loan  { --accent: #58a6ff; --icon-bg: rgba(88,166,255,0.12); animation-delay: 0.3s; }
-.card.complex { --accent: #d29922; --icon-bg: rgba(210,153,34,0.12); animation-delay: 0.4s; }
-
-/* 상담 체크리스트 */
-.checklist {
-  background: linear-gradient(135deg, #0d1f2d, #0d1117);
-  border: 1px solid rgba(88,166,255,0.25);
-  border-radius: 18px;
-  padding: 20px;
-  animation: fadeUp 0.5s ease 0.5s both;
-}
-
-.checklist-title {
-  font-size: 13px;
-  font-weight: 700;
-  color: #58a6ff;
-  margin-bottom: 14px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.check-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  padding: 8px 0;
-  border-bottom: 1px solid rgba(255,255,255,0.05);
-  font-size: 12px;
-  color: #c9d1d9;
-  line-height: 1.5;
-}
-.check-item:last-child { border-bottom: none; }
-
-.check-num {
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: rgba(88,166,255,0.15);
-  border: 1px solid rgba(88,166,255,0.3);
-  color: #58a6ff;
-  font-size: 10px;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  margin-top: 1px;
-}
-
-.footer {
-  text-align: center;
-  font-size: 10px;
-  color: #3d444d;
-  margin-top: 28px;
-  line-height: 1.8;
-  animation: fadeUp 0.5s ease 0.6s both;
-}
-
-@keyframes fadeDown {
-  from { opacity:0; transform:translateY(-16px); }
-  to   { opacity:1; transform:translateY(0); }
-}
-@keyframes fadeUp {
-  from { opacity:0; transform:translateY(16px); }
-  to   { opacity:1; transform:translateY(0); }
-}
+@keyframes fadeDown { from{opacity:0;transform:translateY(-16px)} to{opacity:1;transform:translateY(0)} }
+@keyframes fadeUp   { from{opacity:0;transform:translateY(16px)}  to{opacity:1;transform:translateY(0)} }
 </style>
 </head>
 <body>
@@ -231,21 +84,20 @@ h1 {
 <div class="header">
   <div class="emoji-title">🏠</div>
   <h1>나디아 × 진혁<br>내 집 마련 프로젝트</h1>
-  <p class="subtitle">하나은행 대출 상담 당일 자료 모음</p>
+  <p class="subtitle">2027년 2월 입주를 향해</p>
 </div>
 
-<!-- 데드라인 -->
 <div class="deadline-box">
   <div class="icon">⏳</div>
   <div>
     <div class="d-label">입주 데드라인</div>
     <div class="d-text">2027년 2월 17일까지</div>
-    <div class="d-sub">현 대출 만기일 · 결혼식은 2027.1.10 (인도네시아)</div>
+    <div class="d-sub">현 대출 만기일 · 인도네시아 결혼식 2027.1.10</div>
   </div>
 </div>
 
 <!-- 주요 페이지 -->
-<div class="section-label">오늘 상담 자료</div>
+<div class="section-label">📂 자료 모음</div>
 <div class="cards">
 
   <a class="card asset" href="asset_dashboard.html">
@@ -257,12 +109,12 @@ h1 {
     </div>
   </a>
 
-  <a class="card loan" href="loan-guide.html">
-    <div class="card-icon">🏦</div>
+  <a class="card result" href="consultation-result.html">
+    <div class="card-icon">✅</div>
     <div class="card-body">
-      <div class="card-tag">대출 가이드</div>
-      <div class="card-title">하나은행 상담 질문 리스트</div>
-      <div class="card-desc">F-2 비자 · 공동명의 · DSR · 토지거래허가</div>
+      <div class="card-tag">은행 상담 완료</div>
+      <div class="card-title">대출 상담 결과</div>
+      <div class="card-desc">하나은행 · 국민은행 결과 · 최종 대출 구조</div>
     </div>
   </a>
 
@@ -270,36 +122,125 @@ h1 {
     <div class="card-icon">🏢</div>
     <div class="card-body">
       <div class="card-tag">검토 단지</div>
-      <div class="card-title">지금까지 추린 후보 단지</div>
-      <div class="card-desc">A등급 5개 · A-등급 포함 전체 현황</div>
+      <div class="card-title">후보 단지 현황</div>
+      <div class="card-desc">A등급 4개 · A-등급 포함 전체 현황</div>
+    </div>
+  </a>
+
+  <a class="card loan archived" href="loan-guide.html">
+    <div class="card-icon">📁</div>
+    <div class="card-body">
+      <div class="card-tag">아카이브</div>
+      <div class="card-title">하나은행 상담 준비 가이드</div>
+      <div class="card-desc">상담 완료 · 참고용으로만 보관</div>
     </div>
   </a>
 
 </div>
 
-<!-- 상담 핵심 체크리스트 -->
-<div class="checklist">
-  <div class="checklist-title">📋 상담에서 꼭 물어볼 것</div>
+<!-- 개념 설명 -->
+<div class="concepts">
+  <div class="section-label">📖 헷갈리는 용어 정리</div>
+  <div class="concept-grid">
 
-  <div class="check-item">
-    <div class="check-num">1</div>
-    <div>F-2 비자로 공동명의 주택담보대출 가능한지 (최우선)</div>
-  </div>
-  <div class="check-item">
-    <div class="check-num">2</div>
-    <div>F-5 영주권 신청 시점에 따라 대출 조건 달라지는지</div>
-  </div>
-  <div class="check-item">
-    <div class="check-num">3</div>
-    <div>9억 미만 vs 이상 대출 한도·조건 차이</div>
-  </div>
-  <div class="check-item">
-    <div class="check-num">4</div>
-    <div>토지거래허가 단지 대출 가능 여부</div>
-  </div>
-  <div class="check-item">
-    <div class="check-num">5</div>
-    <div>회사 대출 7,000만 (금리 1%)이 DSR 산정에 포함되는지</div>
+    <div class="concept-card" onclick="toggle(this)">
+      <div class="concept-header">
+        <div class="concept-title">
+          <span style="background:rgba(88,166,255,0.15);color:#58a6ff;padding:2px 8px;border-radius:8px;font-size:11px">LTV</span>
+          담보인정비율
+        </div>
+        <div class="concept-arrow">▶</div>
+      </div>
+      <div class="concept-body">
+        <strong>집값 대비 대출 가능한 최대 비율.</strong><br>
+        LTV 40% = 집값의 40%까지만 대출 가능하다는 뜻이야.<br><br>
+        9억 미만 아파트는 LTV <strong>70%</strong>까지 가능하고,<br>
+        9억 초과분은 LTV <strong>40%</strong>로 확 줄어들어.
+        <div class="example">
+          예) 8.5억 아파트, LTV 70% → 최대 <span>5억 9,500만</span> 대출 가능<br>
+          예) 10억 아파트 → 9억까지는 70%, 초과 1억은 40% → 복잡해짐
+        </div>
+      </div>
+    </div>
+
+    <div class="concept-card" onclick="toggle(this)">
+      <div class="concept-header">
+        <div class="concept-title">
+          <span style="background:rgba(63,185,80,0.15);color:#3fb950;padding:2px 8px;border-radius:8px;font-size:11px">DSR</span>
+          총부채원리금상환비율
+        </div>
+        <div class="concept-arrow">▶</div>
+      </div>
+      <div class="concept-body">
+        <strong>1년 동안 갚아야 할 모든 대출 원리금 ÷ 연소득.</strong><br>
+        은행권은 DSR <strong>40%</strong> 상한이야. 즉 연소득의 40% 이상을 대출 상환에 쓰면 안 됨.<br><br>
+        모든 대출 (주담대 + 신용대출 + 기타)이 다 합산돼.
+        <div class="example">
+          나디아 연소득 1억 1,673만 → DSR 40% = 연 <span>4,669만</span>까지 상환 가능<br>
+          진혁 연소득 5,272만 → DSR 40% = 연 <span>2,109만</span>까지 상환 가능<br>
+          합산 시 → 연 <span>6,778만</span>까지 → 대출 가능액 폭 넓어짐
+        </div>
+      </div>
+    </div>
+
+    <div class="concept-card" onclick="toggle(this)">
+      <div class="concept-header">
+        <div class="concept-title">
+          <span style="background:rgba(232,121,249,0.15);color:#e879f9;padding:2px 8px;border-radius:8px;font-size:11px">생최</span>
+          생애최초 주택담보대출
+        </div>
+        <div class="concept-arrow">▶</div>
+      </div>
+      <div class="concept-body">
+        <strong>살면서 한 번도 집을 산 적 없는 사람을 위한 우대 대출.</strong><br>
+        LTV를 최대 <strong>80%</strong>까지 올려줘서 대출 한도가 확 늘어나.<br><br>
+        ⚠️ <strong style="color:#f85149">외국인은 신청 불가.</strong> 배우자가 외국인이어도 안 됨.<br>
+        → 나디아가 F-2라서 우리는 해당 없음. 진혁 단독명의로 가면 가능할 수도 있는데 은행 확인 필요.
+        <div class="example">
+          생최 적용 시: 8.5억 × 80% = <span>6억 8,000만</span> 대출 가능<br>
+          일반 적용 시: 8.5억 × 70% = <span>5억 9,500만</span> 대출 가능
+        </div>
+      </div>
+    </div>
+
+    <div class="concept-card" onclick="toggle(this)">
+      <div class="concept-header">
+        <div class="concept-title">
+          <span style="background:rgba(210,153,34,0.15);color:#d29922;padding:2px 8px;border-radius:8px;font-size:11px">토허</span>
+          토지거래허가구역
+        </div>
+        <div class="concept-arrow">▶</div>
+      </div>
+      <div class="concept-body">
+        <strong>서울시가 지정한 과열 구역. 집을 사면 직접 거주 의무가 생김.</strong><br>
+        투기 목적 거래를 막기 위해 지자체장 허가를 받아야 매수 가능.<br><br>
+        대출 자체는 가능하지만 <strong>실거주 의무</strong> 때문에 세를 줄 수 없어. 은행도 추가 서류 요구할 수 있음.
+        <div class="example">
+          해당 단지: 북한산현대힐스테이트3차, 백련산힐스테이트1차, 연희동성원 등<br>
+          → 매수 전 <span>구청 허가 필수</span> · 실거주 의무 확인
+        </div>
+      </div>
+    </div>
+
+    <div class="concept-card" onclick="toggle(this)">
+      <div class="concept-header">
+        <div class="concept-title">
+          <span style="background:rgba(248,81,73,0.15);color:#f85149;padding:2px 8px;border-radius:8px;font-size:11px">전세율</span>
+          전세가율 (전세/매매)
+        </div>
+        <div class="concept-arrow">▶</div>
+      </div>
+      <div class="concept-body">
+        <strong>매매가 대비 전세가 비율. 높을수록 집값 하락 위험이 낮다는 신호.</strong><br>
+        전세율이 너무 낮으면 갭투자 과다 → 집값 거품 가능성.<br><br>
+        우리 기준: <strong style="color:#3fb950">60% 이상</strong> 필수. 50% 미만은 자동 탈락.
+        <div class="example">
+          전세율 65% = 매매 8억짜리 집 전세가가 <span>5억 2,000만</span>이라는 뜻<br>
+          전세율이 높을수록 실수요 탄탄 → 가격 방어력 좋음
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -308,5 +249,10 @@ h1 {
   목표 예산 8~9억 · 서울 아파트 59㎡+ · 2000년 이후 준공
 </div>
 
+<script>
+function toggle(el) {
+  el.classList.toggle('open');
+}
+</script>
 </body>
 </html>

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>대출 상담 결과</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Noto Sans KR',sans-serif; background:#0d1117; color:#e6edf3; min-height:100vh; padding:24px 16px 60px; }
+
+.back { display:inline-flex;align-items:center;gap:6px;font-size:12px;color:#6e7681;text-decoration:none;margin-bottom:20px; }
+.back:hover { color:#e879f9; }
+
+.header { text-align:center; margin-bottom:24px; }
+.badge { display:inline-block; background:rgba(232,121,249,0.12); border:1px solid rgba(232,121,249,0.3); color:#e879f9; font-size:10px;font-weight:700;letter-spacing:1px; padding:3px 12px;border-radius:20px;text-transform:uppercase;margin-bottom:10px; }
+h1 { font-size:22px;font-weight:900;color:#fff;line-height:1.4; }
+.sub { font-size:12px;color:#6e7681;margin-top:6px; }
+
+.result-section { background:#161b22;border:1px solid #21262d;border-radius:18px;padding:18px;margin-bottom:14px; }
+.sec-title { font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:14px; }
+
+/* 결과 카드 */
+.bank-result {
+  border-radius:14px;padding:16px;margin-bottom:12px;
+}
+.bank-result.hana { background:rgba(88,166,255,0.06);border:1px solid rgba(88,166,255,0.2); }
+.bank-result.kb   { background:rgba(63,185,80,0.06);border:1px solid rgba(63,185,80,0.2); }
+
+.bank-header { display:flex;align-items:center;gap:10px;margin-bottom:12px; }
+.bank-icon { font-size:22px; }
+.bank-name { font-size:15px;font-weight:700;color:#fff; }
+.bank-badge { font-size:9px;font-weight:700;padding:2px 8px;border-radius:8px;margin-left:auto; }
+.bank-badge.done { background:rgba(248,81,73,0.15);color:#f85149; }
+.bank-badge.ok   { background:rgba(63,185,80,0.15);color:#3fb950; }
+
+.result-row { display:flex;justify-content:space-between;align-items:flex-start;padding:7px 0;border-bottom:1px solid rgba(255,255,255,0.05);font-size:12px;gap:12px; }
+.result-row:last-child { border-bottom:none; }
+.r-label { color:#8b949e;flex-shrink:0;width:110px; }
+.r-val { font-weight:600;color:#e6edf3;text-align:right;flex:1; }
+.r-val.blue { color:#58a6ff; }
+.r-val.green { color:#3fb950; }
+.r-val.red { color:#f85149; }
+.r-val.yellow { color:#d29922; }
+
+/* 최종 구조 */
+.final-box {
+  background:linear-gradient(135deg,#0f1f10,#0d1117);
+  border:1px solid rgba(63,185,80,0.35);
+  border-radius:18px;padding:20px;margin-bottom:14px;
+}
+.final-title { font-size:13px;font-weight:700;color:#3fb950;margin-bottom:14px;display:flex;align-items:center;gap:6px; }
+
+.flow-item { display:flex;align-items:center;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.05);font-size:12px;gap:12px; }
+.flow-item:last-child { border-bottom:none; }
+.flow-icon { font-size:16px;width:24px;text-align:center;flex-shrink:0; }
+.flow-label { color:#8b949e;flex:1; }
+.flow-amt { font-weight:700;color:#e6edf3; }
+.flow-amt.green { color:#3fb950; }
+.flow-amt.red { color:#f85149; }
+
+.flow-divider { height:1px;background:rgba(63,185,80,0.25);margin:6px 0; }
+
+.total-row { display:flex;justify-content:space-between;align-items:center;padding:10px 0 0; }
+.total-label { font-size:14px;font-weight:700;color:#fff; }
+.total-amt { font-size:22px;font-weight:900;color:#3fb950; }
+
+/* 포인트 박스 */
+.point-box {
+  background:rgba(248,81,73,0.06);
+  border:1px solid rgba(248,81,73,0.2);
+  border-radius:12px;padding:14px;margin-top:12px;
+}
+.point-title { font-size:11px;font-weight:700;color:#f85149;margin-bottom:8px; }
+.point-item { font-size:12px;color:#8b949e;line-height:1.8;padding-left:12px;position:relative; }
+.point-item::before { content:'·';position:absolute;left:0; }
+
+.next-box {
+  background:rgba(210,153,34,0.06);
+  border:1px solid rgba(210,153,34,0.2);
+  border-radius:14px;padding:16px;margin-bottom:14px;
+}
+.next-title { font-size:11px;font-weight:700;color:#d29922;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px; }
+.next-item { display:flex;align-items:flex-start;gap:8px;font-size:12px;color:#c9d1d9;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.05);line-height:1.5; }
+.next-item:last-child { border-bottom:none; }
+.next-dot { width:6px;height:6px;border-radius:50%;background:#d29922;margin-top:5px;flex-shrink:0; }
+
+.back-btn { display:block;text-align:center;margin-top:20px;color:#6e7681;font-size:12px;text-decoration:none; }
+</style>
+</head>
+<body>
+
+<a class="back" href="index.html">← 홈으로</a>
+
+<div class="header">
+  <div class="badge">2026년 6월 상담 완료</div>
+  <h1>🏦 대출 상담 결과</h1>
+  <p class="sub">하나은행 · 국민은행 방문 상담</p>
+</div>
+
+<!-- 하나은행 -->
+<div class="result-section">
+  <div class="sec-title" style="color:#58a6ff">🔵 하나은행 (나디아 주거래 · 회사연계 VVIP)</div>
+
+  <div class="bank-result hana">
+    <div class="bank-header">
+      <div class="bank-icon">🏦</div>
+      <div class="bank-name">하나은행</div>
+      <div class="bank-badge done">생최 불가 확인</div>
+    </div>
+    <div class="result-row"><span class="r-label">기준 단지</span><span class="r-val">북한산힐스테이트1차 (KB시세 9억)</span></div>
+    <div class="result-row"><span class="r-label">나디아 단독<br>(기존대출 상환 시)</span><span class="r-val blue">최대 5억 7,500만</span></div>
+    <div class="result-row"><span class="r-label">나디아 단독<br>(기존대출 유지 시)</span><span class="r-val">최대 3억 5,000만</span></div>
+    <div class="result-row"><span class="r-label">생애최초 적용 시</span><span class="r-val red">외국인 불가 ❌</span></div>
+    <div class="result-row"><span class="r-label">외국인 일반 40%</span><span class="r-val red">최대 3억 500만</span></div>
+    <div class="result-row"><span class="r-label">혼인신고 후 합산</span><span class="r-val red">배우자 외국인 → 생최 여전히 불가 ❌</span></div>
+  </div>
+
+  <div class="point-box">
+    <div class="point-title">⚠️ 핵심 문제</div>
+    <div class="point-item">외국인(F-2)은 생애최초 주담대 신청 자체가 불가</div>
+    <div class="point-item">혼인신고로 배우자 등록해도 외국인 배우자면 동일하게 막힘</div>
+    <div class="point-item">일반 LTV 40% 적용 시 3억 500만이 한계 → 예산 턱없이 부족</div>
+  </div>
+</div>
+
+<!-- 국민은행 -->
+<div class="result-section">
+  <div class="sec-title" style="color:#3fb950">🟢 국민은행 (진혁 주거래)</div>
+
+  <div class="bank-result kb">
+    <div class="bank-header">
+      <div class="bank-icon">🏛️</div>
+      <div class="bank-name">국민은행</div>
+      <div class="bank-badge ok">✅ 해결책 확인</div>
+    </div>
+    <div class="result-row"><span class="r-label">대출 명의</span><span class="r-val green">진혁 단독 명의로 주담대</span></div>
+    <div class="result-row"><span class="r-label">집 명의</span><span class="r-val green">나디아 + 진혁 공동명의</span></div>
+    <div class="result-row"><span class="r-label">소득 산정</span><span class="r-val green">혼인신고 후 합산소득 적용</span></div>
+    <div class="result-row"><span class="r-label">나디아 역할</span><span class="r-val">담보 제공자로 참여</span></div>
+    <div class="result-row"><span class="r-label">대출 가능액</span><span class="r-val green" style="font-size:15px">6억 가능 ✅</span></div>
+  </div>
+</div>
+
+<!-- 최종 자금 구조 -->
+<div class="final-box">
+  <div class="final-title">💡 최종 자금 구조 (확정)</div>
+
+  <div class="flow-item">
+    <div class="flow-icon">🏠</div>
+    <div class="flow-label">보증금 순현금 (대출 상환 후)</div>
+    <div class="flow-amt">1억 9,700만</div>
+  </div>
+  <div class="flow-item">
+    <div class="flow-icon">📈</div>
+    <div class="flow-label">투자계좌 + 통장</div>
+    <div class="flow-amt">~8,900만</div>
+  </div>
+  <div class="flow-item">
+    <div class="flow-icon">🏢</div>
+    <div class="flow-label">회사 대출 (금리 1%)</div>
+    <div class="flow-amt green">+7,000만</div>
+  </div>
+  <div class="flow-item">
+    <div class="flow-icon">👤</div>
+    <div class="flow-label">진혁 기여분</div>
+    <div class="flow-amt">+1,000만</div>
+  </div>
+  <div class="flow-divider"></div>
+  <div class="flow-item" style="padding-bottom:0">
+    <div class="flow-icon">💵</div>
+    <div class="flow-label" style="color:#e6edf3;font-weight:700">자기자본 합계</div>
+    <div class="flow-amt green">약 3억 3,600만</div>
+  </div>
+  <div class="flow-item">
+    <div class="flow-icon">🏛️</div>
+    <div class="flow-label">국민은행 주담대 (진혁 명의)</div>
+    <div class="flow-amt green">+6억</div>
+  </div>
+  <div class="flow-divider"></div>
+  <div class="total-row">
+    <div class="total-label">총 구매력</div>
+    <div class="total-amt">약 9억 3,600만</div>
+  </div>
+</div>
+
+<!-- 다음 할 일 -->
+<div class="next-box">
+  <div class="next-title">📌 다음 할 일</div>
+  <div class="next-item"><div class="next-dot"></div><div>나디아 F-5 영주권 신청 (2026.6.15 예정) → 취득 시 대출 조건 재확인</div></div>
+  <div class="next-item"><div class="next-dot"></div><div>혼인신고 타이밍 확인 → 국민은행 합산소득 적용 시점</div></div>
+  <div class="next-item"><div class="next-dot"></div><div>진혁 생애최초 단독 적용 가능 여부 국민은행 재확인</div></div>
+  <div class="next-item"><div class="next-dot"></div><div>금천구 · 광명시 · 고양시 단지 분석 계속</div></div>
+  <div class="next-item"><div class="next-dot"></div><div>최종 후보 단지 확정 후 현장 임장</div></div>
+</div>
+
+<a class="back-btn" href="index.html">← 홈으로 돌아가기</a>
+
+</body>
+</html>
