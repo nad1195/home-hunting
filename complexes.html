@@ -29,6 +29,26 @@ body {
 h1 { font-size:22px;font-weight:900;color:#fff;line-height:1.4; }
 .sub { font-size:12px;color:#6e7681;margin-top:6px; }
 
+/* 검색창 */
+.search-wrap {
+  position:relative;margin-bottom:14px;
+}
+.search-input {
+  width:100%;padding:10px 14px 10px 36px;
+  background:#161b22;border:1px solid #21262d;border-radius:12px;
+  color:#e6edf3;font-size:13px;font-family:inherit;outline:none;
+  transition:border-color 0.15s;
+}
+.search-input:focus { border-color:#58a6ff; }
+.search-input::placeholder { color:#3d444d; }
+.search-icon {
+  position:absolute;left:12px;top:50%;transform:translateY(-50%);
+  font-size:14px;pointer-events:none;
+}
+.search-count {
+  font-size:11px;color:#6e7681;text-align:right;margin-top:4px;margin-bottom:10px;min-height:16px;
+}
+
 /* 필터 탭 */
 .tabs {
   display:flex;gap:8px;margin-bottom:18px;overflow-x:auto;padding-bottom:4px;
@@ -49,6 +69,7 @@ h1 { font-size:22px;font-weight:900;color:#fff;line-height:1.4; }
 .tab.A.active { background:rgba(63,185,80,0.12);border-color:rgba(63,185,80,0.4);color:#3fb950; }
 .tab.Am.active { background:rgba(88,166,255,0.12);border-color:rgba(88,166,255,0.4);color:#58a6ff; }
 .tab.hold.active { background:rgba(210,153,34,0.12);border-color:rgba(210,153,34,0.4);color:#d29922; }
+.tab.out.active { background:rgba(248,81,73,0.1);border-color:rgba(248,81,73,0.3);color:#f85149; }
 
 /* 카드 */
 .complex-card {
@@ -62,6 +83,7 @@ h1 { font-size:22px;font-weight:900;color:#fff;line-height:1.4; }
 .complex-card.grade-A { border-left:3px solid #3fb950; }
 .complex-card.grade-Am { border-left:3px solid #58a6ff; }
 .complex-card.grade-hold { border-left:3px solid #d29922; }
+.complex-card.grade-out { border-left:3px solid #f85149;opacity:0.7; }
 
 .card-top { display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px; }
 
@@ -72,6 +94,7 @@ h1 { font-size:22px;font-weight:900;color:#fff;line-height:1.4; }
 .grade-badge.A { background:rgba(63,185,80,0.15);color:#3fb950; }
 .grade-badge.Am { background:rgba(88,166,255,0.15);color:#58a6ff; }
 .grade-badge.hold { background:rgba(210,153,34,0.15);color:#d29922; }
+.grade-badge.out { background:rgba(248,81,73,0.12);color:#f85149; }
 
 .complex-name { font-size:15px;font-weight:700;color:#fff;flex:1; }
 .complex-dong { font-size:11px;color:#6e7681;margin-top:2px; }
@@ -115,11 +138,18 @@ h1 { font-size:22px;font-weight:900;color:#fff;line-height:1.4; }
   <p class="sub">예산 800~900만 · 59㎡+ · 2000년 이후 · 우상향 필수</p>
 </div>
 
+<div class="search-wrap">
+  <span class="search-icon">🔍</span>
+  <input class="search-input" type="text" id="searchInput" placeholder="단지명, 동네로 검색..." oninput="onSearch(this.value)">
+</div>
+<div class="search-count" id="searchCount"></div>
+
 <div class="tabs">
   <div class="tab all active" onclick="filter('all', this)">전체</div>
   <div class="tab A" onclick="filter('A', this)">⭐ A등급</div>
   <div class="tab Am" onclick="filter('Am', this)">A-등급</div>
   <div class="tab hold" onclick="filter('hold', this)">보류</div>
+  <div class="tab out" onclick="filter('out', this)">❌ 탈락</div>
 </div>
 
 <!-- A등급 -->
@@ -362,21 +392,199 @@ h1 { font-size:22px;font-weight:900;color:#fff;line-height:1.4; }
   <div class="complex-note">우상향이지만 준공연도 경계선 + 세대수 아쉬움</div>
 </div>
 
+<!-- 탈락 -->
+<div class="section-title" id="sec-out">❌ 탈락 — 기준 미달</div>
+
+<div class="complex-card grade-out" data-grade="out">
+  <div class="card-top">
+    <div><div class="complex-name">힐스테이트녹번 24평</div><div class="complex-dong">은평구 녹번동</div></div>
+    <div class="grade-badge out">탈락</div>
+  </div>
+  <div class="meta-row"><span class="meta-chip warn">예산 초과</span></div>
+</div>
+
+<div class="complex-card grade-out" data-grade="out">
+  <div class="card-top">
+    <div><div class="complex-name">영등포푸르지오</div><div class="complex-dong">영등포구</div></div>
+    <div class="grade-badge out">탈락</div>
+  </div>
+  <div class="meta-row"><span class="meta-chip warn">예산 초과</span></div>
+</div>
+
+<div class="complex-card grade-out" data-grade="out">
+  <div class="card-top">
+    <div><div class="complex-name">래미안베라힐즈</div><div class="complex-dong">은평구 녹번동</div></div>
+    <div class="grade-badge out">탈락</div>
+  </div>
+  <div class="meta-row"><span class="meta-chip warn">예산 초과</span></div>
+</div>
+
+<div class="complex-card grade-out" data-grade="out">
+  <div class="card-top">
+    <div><div class="complex-name">DMC래미안e편한세상</div><div class="complex-dong">은평구 수색동</div></div>
+    <div class="grade-badge out">탈락</div>
+  </div>
+  <div class="meta-row"><span class="meta-chip warn">예산 초과</span></div>
+</div>
+
+<div class="complex-card grade-out" data-grade="out">
+  <div class="card-top">
+    <div><div class="complex-name">우장산힐스테이트</div><div class="complex-dong">강서구 화곡동</div></div>
+    <div class="grade-badge out">탈락</div>
+  </div>
+  <div class="meta-row"><span class="meta-chip warn">예산 초과</span></div>
+</div>
+
+<div class="complex-card grade-out" data-grade="out">
+  <div class="card-top">
+    <div><div class="complex-name">홍제삼성래미안</div><div class="complex-dong">서대문구 홍제동</div></div>
+    <div class="grade-badge out">탈락</div>
+  </div>
+  <div class="meta-row"><span class="meta-chip warn">예산 초과</span><span class="meta-chip warn">토지거래허가</span></div>
+</div>
+
+<div class="complex-card grade-out" data-grade="out">
+  <div class="card-top">
+    <div><div class="complex-name">호반써밋개봉</div><div class="complex-dong">구로구 개봉동</div></div>
+    <div class="grade-badge out">탈락</div>
+  </div>
+  <div class="meta-row"><span class="meta-chip warn">전세율 47% 미달</span></div>
+</div>
+
+<div class="complex-card grade-out" data-grade="out">
+  <div class="card-top">
+    <div><div class="complex-name">백련산SK뷰아이파크</div><div class="complex-dong">은평구 응암동</div></div>
+    <div class="grade-badge out">탈락</div>
+  </div>
+  <div class="meta-row"><span class="meta-chip warn">9억 초과</span></div>
+</div>
+
+<div class="complex-card grade-out" data-grade="out">
+  <div class="card-top">
+    <div><div class="complex-name">백련산파크자이</div><div class="complex-dong">은평구 응암동</div></div>
+    <div class="grade-badge out">탈락</div>
+  </div>
+  <div class="meta-row"><span class="meta-chip warn">9억 초과</span></div>
+</div>
+
+<div class="complex-card grade-out" data-grade="out">
+  <div class="card-top">
+    <div><div class="complex-name">백련산힐스테이트4차</div><div class="complex-dong">은평구 응암동</div></div>
+    <div class="grade-badge out">탈락</div>
+  </div>
+  <div class="meta-row"><span class="meta-chip warn">9억 초과</span></div>
+</div>
+
+<div class="complex-card grade-out" data-grade="out">
+  <div class="card-top">
+    <div><div class="complex-name">녹번역센트레빌</div><div class="complex-dong">은평구 녹번동</div></div>
+    <div class="grade-badge out">탈락</div>
+  </div>
+  <div class="meta-row"><span class="meta-chip warn">9억 초과</span></div>
+</div>
+
+<div class="complex-card grade-out" data-grade="out">
+  <div class="card-top">
+    <div><div class="complex-name">홍제한양</div><div class="complex-dong">서대문구 홍제동</div></div>
+    <div class="grade-badge out">탈락</div>
+  </div>
+  <div class="meta-row"><span class="meta-chip warn">준공연도 미달</span></div>
+</div>
+
+<div class="complex-card grade-out" data-grade="out">
+  <div class="card-top">
+    <div><div class="complex-name">홍제현대</div><div class="complex-dong">서대문구 홍제동</div></div>
+    <div class="grade-badge out">탈락</div>
+  </div>
+  <div class="meta-row"><span class="meta-chip warn">준공연도 미달</span></div>
+</div>
+
+<div class="complex-card grade-out" data-grade="out">
+  <div class="card-top">
+    <div><div class="complex-name">연희대우</div><div class="complex-dong">서대문구 연희동</div></div>
+    <div class="grade-badge out">탈락</div>
+  </div>
+  <div class="meta-row"><span class="meta-chip warn">준공연도 미달</span><span class="meta-chip warn">예산</span></div>
+</div>
+
+<div class="complex-card grade-out" data-grade="out">
+  <div class="card-top">
+    <div><div class="complex-name">DMC래미안클라시스</div><div class="complex-dong">서대문구 남가좌동</div></div>
+    <div class="grade-badge out">탈락</div>
+  </div>
+  <div class="meta-row"><span class="meta-chip warn">기타</span></div>
+</div>
+
+<div class="complex-card grade-out" data-grade="out">
+  <div class="card-top">
+    <div><div class="complex-name">북가좌DMC아이파크</div><div class="complex-dong">서대문구 북가좌동</div></div>
+    <div class="grade-badge out">탈락</div>
+  </div>
+  <div class="meta-row"><span class="meta-chip warn">기타</span></div>
+</div>
+
 <a class="back-btn" href="index.html">← 홈으로 돌아가기</a>
 
 <script>
+let currentFilter = 'all';
+
+function getSearchText(card) {
+  return (card.querySelector('.complex-name')?.textContent || '') + ' ' +
+         (card.querySelector('.complex-dong')?.textContent || '');
+}
+
+function applyView() {
+  const query = document.getElementById('searchInput').value.trim().toLowerCase();
+  const isSearching = query.length > 0;
+  const sectionMap = {A:'sec-A', Am:'sec-Am', hold:'sec-hold', out:'sec-out'};
+  let visibleCount = 0;
+
+  document.querySelectorAll('.complex-card').forEach(card => {
+    const gradeMatch = isSearching || currentFilter === 'all' || card.dataset.grade === currentFilter;
+    // 검색 없을 때 탈락은 탈락탭 선택시에만 노출
+    const outVisible = isSearching || currentFilter === 'all' ? false : true;
+    let show = false;
+
+    if (isSearching) {
+      show = getSearchText(card).toLowerCase().includes(query);
+    } else {
+      if (currentFilter === 'all') {
+        show = card.dataset.grade !== 'out'; // 전체탭에서 탈락 숨김
+      } else {
+        show = card.dataset.grade === currentFilter;
+      }
+    }
+    card.style.display = show ? '' : 'none';
+    if (show) visibleCount++;
+  });
+
+  document.querySelectorAll('.section-title').forEach(s => {
+    if (isSearching) {
+      // 해당 섹션에 보이는 카드가 있으면 섹션타이틀 표시
+      const grade = Object.keys(sectionMap).find(k => sectionMap[k] === s.id);
+      const hasVisible = [...document.querySelectorAll(`.complex-card[data-grade="${grade}"]`)]
+        .some(c => c.style.display !== 'none');
+      s.style.display = hasVisible ? '' : 'none';
+    } else if (currentFilter === 'all') {
+      s.style.display = s.id !== 'sec-out' ? '' : 'none';
+    } else {
+      s.style.display = s.id === sectionMap[currentFilter] ? '' : 'none';
+    }
+  });
+
+  const countEl = document.getElementById('searchCount');
+  countEl.textContent = isSearching ? `${visibleCount}개 단지 검색됨` : '';
+}
+
 function filter(grade, el) {
+  currentFilter = grade;
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   el.classList.add('active');
-  document.querySelectorAll('.complex-card').forEach(card => {
-    if (grade === 'all') { card.style.display = ''; return; }
-    card.style.display = card.dataset.grade === grade ? '' : 'none';
-  });
-  document.querySelectorAll('.section-title').forEach(s => {
-    if (grade === 'all') { s.style.display = ''; return; }
-    const map = {A:'sec-A', Am:'sec-Am', hold:'sec-hold'};
-    s.style.display = s.id === map[grade] ? '' : 'none';
-  });
+  applyView();
+}
+
+function onSearch(val) {
+  applyView();
 }
 </script>
 </body>
